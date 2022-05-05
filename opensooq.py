@@ -9,8 +9,7 @@ headers = {
                   'Chrome/89.0.4389.128 Safari/537.36 '
 }
 products_links = []
-products_id_list = []
-whiskylist = []
+
 
 for x in range(0, 1):
     r = requests.get(f'https://iq.opensooq.com/ar/%D8%B9%D9%82%D8%A7%D8%B1%D8%A7%D8%AA-%D9%84%D9%84%D8%A8%D9%8A%D8%B9/%D8%B4%D9%82%D9%82-%D9%84%D9%84%D8%A8%D9%8A%D8%B9?page={x}')
@@ -21,10 +20,6 @@ for x in range(0, 1):
     for link in products_link:
         links = link.find('a', href=True)
         products_links.append(baseurl + links['href'])
-
-
-# print(products_links)
-# print(len(products_links))
 
 counter = 0
 whiskylist = []
@@ -38,9 +33,7 @@ for link in products_links:
         name = 'no name'
 
     info = soup.find('span', class_="blue").text.strip()
-    print(info)
     description = soup.find('p', class_="firstPart breakWord").text
-    print(description)
 
     whisky = {
         'name': name,
@@ -51,7 +44,6 @@ for link in products_links:
     counter += 1
     print(counter, ': ', whisky['name'], ' | ', whisky['info'], ' | ', whisky['description'])
 df = pd.DataFrame(whiskylist)
-print(df)
 df.to_csv("opensooq6.csv", sep=",", encoding="utf-8-sig", index=False)
 
 
